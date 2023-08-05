@@ -3,15 +3,16 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const {google} = require("googleapis");
-const keys = require("./keys.json"); // your service account keys
 const {body, validationResult} = require("express-validator"); // Import validation methods
 const axios = require("axios");
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
-
+const stringemail = String(process.env.client_email);
+const stringkey = String(process.env.PRIVATE_KEY);
+const pkey = stringkey.replace(/\\n/g, "\n");
 // create Google Auth client
-const client = new google.auth.JWT(keys.client_email, null, keys.private_key, [
+const client = new google.auth.JWT(stringemail, null, pkey, [
   "https://www.googleapis.com/auth/spreadsheets",
 ]);
 
