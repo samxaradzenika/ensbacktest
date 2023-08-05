@@ -30,14 +30,12 @@ client
   .then((response) => {
     const secret = response.SecretString;
     const {private_key, client_email} = JSON.parse(secret);
+    const privkey = private_key.split(String.raw`\n`).join("\n");
 
     // create Google Auth client
-    const googleAuthClient = new google.auth.JWT(
-      client_email,
-      null,
-      private_key,
-      ["https://www.googleapis.com/auth/spreadsheets"]
-    );
+    const googleAuthClient = new google.auth.JWT(client_email, null, privkey, [
+      "https://www.googleapis.com/auth/spreadsheets",
+    ]);
 
     googleAuthClient.authorize(function (err, tokens) {
       if (err) {
