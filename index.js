@@ -13,7 +13,7 @@ app.use(cors());
 const client = new google.auth.JWT(
   process.env.CLIENT_EMAIL,
   null,
-  process.env.PRIVATE_KEY.replace(/\\n/g, "\n"), // Replacing escaped newline characters
+  process.env.PRIVATE_KEY, // Replacing escaped newline characters
   ["https://www.googleapis.com/auth/spreadsheets"]
 );
 
