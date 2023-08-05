@@ -3,19 +3,17 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const {google} = require("googleapis");
-const {body, validationResult} = require("express-validator");
+const keys = require("./keys.json"); // your service account keys
+const {body, validationResult} = require("express-validator"); // Import validation methods
 const axios = require("axios");
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-// Create Google Auth client using environment variables
-const client = new google.auth.JWT(
-  process.env.CLIENT_EMAIL,
-  null,
-  process.env.PRIVATE_KEY, // Replacing escaped newline characters
-  ["https://www.googleapis.com/auth/spreadsheets"]
-);
+// create Google Auth client
+const client = new google.auth.JWT(keys.client_email, null, keys.private_key, [
+  "https://www.googleapis.com/auth/spreadsheets",
+]);
 
 client.authorize(function (err, tokens) {
   if (err) {
